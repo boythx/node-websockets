@@ -13,6 +13,19 @@ const server = express()
 const wss = new Server({ server });
 
 wss.on('connection', (ws) => {
+  
+  ws.on('message', function incoming(message) {
+   // รอรับ data อะไรก็ตาม ที่มาจาก client แบบตลอดเวลา
+
+   wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(message);
+      }
+    });
+
+    console.log('received: %s', message);
+  });
+  
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
 });
