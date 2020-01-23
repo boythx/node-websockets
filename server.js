@@ -14,14 +14,13 @@ const wss = new Server({ server });
 
 wss.on('connection', (ws) => {
   
-  ws.on('message', function incoming(message) {
+  ws.on('message', (message) => {
    // รอรับ data อะไรก็ตาม ที่มาจาก client แบบตลอดเวลา
 
-   wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
-    });
+    
+    wss.clients.forEach((client) => {
+    client.send(message);
+  });
 
     console.log('received: %s', message);
   });
